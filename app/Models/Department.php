@@ -10,4 +10,24 @@ class Department extends Model
         'company_id',
         'name',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function designations()
+    {
+        return $this->hasMany(Designation::class);
+    }
+
+    public function employees()
+    {
+        return $this->throughDesignations()->hasEmployees();
+    }
+
+    public function scopeInCompany($query)
+    {
+        return $query->where('company_id', session('company_id'));
+    }
 }
