@@ -11,4 +11,14 @@ class Salary extends Model
         'employee_id',
         'gross_salary',
     ];
+
+    public function payroll()
+    {
+        return $this->belongsTo(Payroll::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }
