@@ -46,7 +46,7 @@ class Employee extends Model
         return $this->hasMany(Payment::class);
     }
 
-    public function cotracts()
+    public function contracts()
     {
         return $this->hasMany(Contract::class);
     }
@@ -56,7 +56,7 @@ class Employee extends Model
         $startDate = $startDate ?? now();
         $endDate = $endDate ?? now();
 
-        return $this->cotracts()
+        return $this->contracts()
             ->where('start_date', '<=', $startDate)
             ->where('end_date', '>=', $endDate)
             ->first();
