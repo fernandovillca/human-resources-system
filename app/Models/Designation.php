@@ -10,4 +10,21 @@ class Designation extends Model
         'department_id',
         'name',
     ];
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class);
+    }
+
+    public function scopeInCompany($query)
+    {
+        return $query->whereHas('department', function ($q) {
+            $q->inCompany();
+        });
+    }
 }
