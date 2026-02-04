@@ -18,3 +18,17 @@ window.showToast = function (message, type = "success") {
         title: message,
     });
 };
+
+window.showAlert = function (options) {
+    return Swal.fire({
+        title: options.title || "¿Estás seguro?",
+        text: options.text || "",
+        icon: options.icon || "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0c224d",
+        cancelButtonColor: "#d33",
+        confirmButtonText: options.confirmButtonText || "Sí, confirmar",
+        cancelButtonText: options.cancelButtonText || "Cancelar",
+        reverseButtons: true,
+    });
+};

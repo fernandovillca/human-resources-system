@@ -60,7 +60,8 @@
                                                 class="cursor-pointer" :href="route('companies.edit', $company->id)"
                                                 wire:navigate />
                                             <flux:button variant="danger" icon="trash" size="sm"
-                                                class="cursor-pointer" />
+                                                class="cursor-pointer"
+                                                wire:click="confirmDelete({{ $company->id }})" />
                                         </div>
                                     </td>
                                 </tr>
@@ -87,3 +88,24 @@
         </div>
     </div>
 </div>
+@script
+    <script>
+        $wire.on('confirm-delete', (event) => {
+            showAlert({
+                title: '¿Eliminar compañía?',
+                text: 'Esta acción no se puede deshacer',
+                icon: 'warning',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.delete(event.id);
+                }
+            });
+        });
+
+        $wire.on('success-delete', (message) => {
+            showToast(message);
+        });
+    </script>
+@endscript

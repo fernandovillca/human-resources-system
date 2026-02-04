@@ -3,6 +3,8 @@
 namespace App\Livewire\Admin\Companies;
 
 use App\Models\Company;
+use App\Traits\WithToast;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Features\SupportPagination\WithoutUrlPagination;
 use Livewire\WithPagination;
@@ -18,6 +20,28 @@ class Index extends Component
     {
         $this->resetPage();
     }
+
+    public function confirmDelete($id)
+    {
+        $this->dispatch('confirm-delete', id: $id);
+    }
+
+    public function delete($id)
+    {
+        $company = Company::findOrFail($id);
+        $companyName = $company->name;
+
+        if ($company->logo) {
+            Storage::disk('public')->delete($company->logo);
+        }
+
+        $company->delete();
+
+        $this->dispatch('confirm-delete', id: $id);
+
+        $this->dispatch('success-delete', "Compañía '{$companyName}' eliminada correctamente");
+    }
+
 
     public function render()
     {
