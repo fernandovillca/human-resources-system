@@ -24,7 +24,7 @@
             <flux:sidebar.group :heading="__('Compañías')" class="grid">
 
                 <flux:sidebar.item icon="building-office" :href="route('companies.index')"
-                    :current="request()->routeIs('companies.index')" wire:navigate>
+                    :current="request()->routeIs('companies.*')" wire:navigate>
                     {{ __('Lista de Compañías') }}
                 </flux:sidebar.item>
 
