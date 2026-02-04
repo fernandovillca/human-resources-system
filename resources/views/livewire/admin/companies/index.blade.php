@@ -57,7 +57,8 @@
                                     <td>
                                         <div class="flex justify-center items-center gap-2">
                                             <flux:button variant="ghost" icon="pencil" size="sm"
-                                                class="cursor-pointer" />
+                                                class="cursor-pointer" :href="route('companies.edit', $company->id)"
+                                                wire:navigate />
                                             <flux:button variant="danger" icon="trash" size="sm"
                                                 class="cursor-pointer" />
                                         </div>
