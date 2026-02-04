@@ -14,6 +14,7 @@ Route::view('dashboard', 'dashboard')
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('companias')->name('companies.')->group(function () {
         Route::get('/', Admin\Companies\Index::class)->name('index');
+        Route::get('/crear', Admin\Companies\Create::class)->name('create');
     });
 });
 
