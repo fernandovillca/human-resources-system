@@ -3,12 +3,13 @@
 namespace App\Livewire\Admin\Companies;
 
 use App\Models\Company;
+use App\Traits\WithToast;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Create extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithToast;
 
     public $company;
     public $logo;
@@ -68,8 +69,8 @@ class Create extends Component
 
         $this->company->save();
 
-        session()->flash('message', 'Compañía creada correctamente.');
-        session()->flash('type', 'success');
+        $this->toastSuccess('¡Compañía creada exitosamente!');
+
 
         return $this->redirect(route('companies.index'), navigate: true);
     }
