@@ -13,6 +13,42 @@
             <flux:sidebar.collapse class="lg:hidden" />
         </flux:sidebar.header>
 
+        <flux:sidebar.group :heading="__('Configuración')" class="grid">
+
+            <flux:radio.group x-data variant="segmented" x-model="$flux.appearance" class="mb-2">
+                <flux:radio value="light" icon="sun" />
+                <flux:radio value="dark" icon="moon" />
+                <flux:radio value="system" icon="computer-desktop" />
+            </flux:radio.group>
+
+            <flux:dropdown class="mt-4" position="bottom" align="start">
+                @php
+                    $company = App\Models\Company::find(session('company_id'));
+                @endphp
+                <flux:profile :name="$company?->name ?? 'Seleccionar Compañía'"
+                    :initials="isset($company) ? strtoupper(substr($company->name, 0, 2)) : 'N/A'"
+                    icon-trailing="chevron-up-down" />
+
+                <flux:menu>
+                    @foreach (auth()->user()->companies as $company)
+                        <flux:menu.radio.group>
+
+                            @livewire('company-switch', ['company' => $company], key($company->id))
+
+                        </flux:menu.radio.group>
+                    @endforeach
+                    @if (auth()->user()->companies->isEmpty())
+                        <flux:menu.item disabled>
+                            {{ __('No tienes compañías asignadas.') }}
+                        </flux:menu.item>
+                    @endif
+                </flux:menu>
+            </flux:dropdown>
+
+        </flux:sidebar.group>
+
+        <flux:separator />
+
         <flux:sidebar.nav>
             <flux:sidebar.group :heading="__('Plataforma')" class="grid">
                 <flux:sidebar.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')"
@@ -35,7 +71,6 @@
 
         <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
     </flux:sidebar>
-
 
     <!-- Mobile User Menu -->
     <flux:header class="lg:hidden">
